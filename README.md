@@ -28,8 +28,8 @@ It targets efficient online/stream training by selecting informative samples und
 
 ```bash
 # Clone the repository
-git clone <YOUR_REPO_URL>
-cd StreamFP_repo
+git clone https://github.com/CGCL-codes/StreamFP.git
+cd StreamFP
 
 # Create and activate conda environment
 conda env create -f environment.yml
