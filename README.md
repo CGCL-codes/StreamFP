@@ -1,109 +1,146 @@
-# StreamFP: Fingerprint-guided Data Selection for Efficient Stream
+# StreamFP: Fingerprint-guided Data Selection for Efficient Stream Learning
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch 1.12+](https://img.shields.io/badge/pytorch-1.12+-ee4c2c.svg)](https://pytorch.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Conference](https://img.shields.io/badge/WWW-'26-orange)](https://www2026.thewebconf.org/)
 
-## Overview
+## 📢 News
+* **[April 2026]** StreamFP has been accepted to **The Web Conference 2026 (WWW '26)**!
 
-**StreamFP** is a continual learning framework for **fingerprint-guided data selection** in streaming/class-incremental learning. 
-It targets efficient online/stream training by selecting informative samples under strict time and memory budgets, while mitigating catastrophic forgetting.
+## 📖 Overview
 
-### Key Features
+**StreamFP** is a novel stream learning framework designed to handle non-stationary data streams with high efficiency and robustness against catastrophic forgetting. It introduces **learnable fingerprints**—compact parameter vectors that summarize the model state—to guide data selection processes.
 
-- 🔎 **Fingerprint-guided selection**: Select representative samples in a stream for efficient rehearsal
-- ⏱️ **Efficiency-oriented**: Supports training-time limits (`--traintime_limit`) and skip strategy (`--skip_batch`)
-- 🧰 **Modular continual learning pipeline**: Pluggable learners, buffers, and selection/update methods
-- 📊 **Multi-benchmark evaluation**: Clear10 / Clear100 / CORe50 / Stream51
+Key challenges in Stream Learning (SL) addressed by StreamFP:
+1.  [cite_start]**Data Redundancy**: Incoming streams often contain redundant data that wastes computation[cite: 58].
+2.  [cite_start]**Catastrophic Forgetting**: Incremental updates can overwrite earlier knowledge[cite: 59].
+3.  [cite_start]**Efficiency**: Traditional model-based selection is often too computationally expensive for real-time streams[cite: 96].
 
-## Installation
+[cite_start]StreamFP achieves superior accuracy and efficiency compared to state-of-the-art methods (e.g., Camel, ER, GradMatch) across varying data arrival rates[cite: 46].
+
+## 🚀 Methodology
+
+[cite_start]StreamFP consists of three key components driven by a shared set of learnable fingerprints [cite: 141-144]:
+
+<div align="center">
+  <img src="assets/framework.png" width="800px" alt="StreamFP Framework">
+</div>
+
+1.  [cite_start]**Fingerprint-based Coreset Selection (FCS)**: Selects informative samples from incoming batches based on fingerprint similarity, prioritizing data that balances novelty and familiarity[cite: 246].
+2.  [cite_start]**Fingerprint-based Buffer Update (FBU)**: Dynamically maintains the replay buffer by preserving representative historical samples and discarding redundant ones[cite: 276].
+3.  [cite_start]**Fingerprint Attunement (FA)**: A lightweight plugin that uses pre-trained ViT attention to calibrate fingerprints online with negligible overhead[cite: 295].
+
+## 🛠️ Installation
 
 ### Prerequisites
 
-- Python 3.8 (recommended, aligned with `environment.yml`)
-- CUDA 11.3+ (GPU)
-- Conda (recommended)
+- Linux or macOS
+- Python 3.8+
+- PyTorch 1.12+ and CUDA 11.3+
 
 ### Setup
 
 ```bash
 # Clone the repository
-git clone https://github.com/CGCL-codes/StreamFP.git
+git clone [https://github.com/CGCL-codes/StreamFP.git](https://github.com/CGCL-codes/StreamFP.git)
 cd StreamFP
 
 # Create and activate conda environment
 conda env create -f environment.yml
 conda activate sl
 
-# FastMoE (optional, only required if your configuration imports fastmoe)
-# See: https://github.com/laekov/fastmoe/blob/master/doc/installation-guide.md
+# (Optional) Install FastMoE if required by your specific config
+# [https://github.com/laekov/fastmoe](https://github.com/laekov/fastmoe)
+
 ```
 
-## Datasets
+## 📂 Datasets
 
-Create a folder `data/` in the project root and download datasets:
+Create a `data/` directory in the project root.
 
-- Clear10 / Clear100: https://clear-benchmark.github.io/
-- Stream51: https://github.com/tyler-hayes/Stream-51
-- CORe50:
-
+* **Clear10 / Clear100**: Download from [Clear Benchmark](https://clear-benchmark.github.io/).
+* **Stream-51**: Download from [Stream-51 GitHub](https://github.com/tyler-hayes/Stream-51).
+* **CORe50**: Run the provided script to download and setup:
 ```bash
 sh core50.sh
+
 ```
 
-## Quick Start
 
-All commands should be run under the project root directory. The provided scripts assume **1 GPU** by default.
+
+## ⚡ Quick Start
+
+### Basic Usage
+
+To run a standard experiment (e.g., on Clear10), use the scripts provided in `experiments/`:
 
 ```bash
+# Run Clear10 experiment
 sh experiments/clear10.sh
-sh experiments/clear100.sh
-sh experiments/core50.sh
+
+# Run Stream-51 experiment
 sh experiments/stream51.sh
+
 ```
 
-## Experiments
+### Custom Configuration
 
-Experiment scripts are in `experiments/` and typically call:
+You can customize the training by modifying the arguments in `run.py`. Key arguments include:
+
+* `--selection_method`: Strategy for coreset selection (e.g., `StreamFP`, `Camel`, `Random`).
+* `--update_method`: Strategy for buffer update (e.g., `StreamFP`, `ER`, `GSS`).
+* `--skip_batch`: Enable batch skipping for high-speed streams (default: `1`).
+* `--traintime_limit`: Simulate real-time constraints.
+
+Example command:
 
 ```bash
-python -u run.py --config <CONFIG_YAML> \
-  --repeat <N> --overwrite 1 \
-  --selection_method <METHOD> --update_method <METHOD> \
-  --mem_size <MEMORY> --skip_batch <SKIP> --traintime_limit <LIMIT>
+python -u run.py --config configs/clear10.yaml \
+  --repeat 1 --overwrite 1 \
+  --selection_method StreamFP --update_method StreamFP \
+  --mem_size 102 --traintime_limit 10
+
 ```
 
-See `configs/` for dataset/model-specific settings.
+## 📊 Results
 
-## Outputs
+StreamFP consistently outperforms baselines in both **Accuracy** and **Forgetting** metrics. Below is a comparison on Stream-51 and Clear10 datasets:
 
-- Results are appended to CSV files under `results_log/` (configured via `--file_name`).
-- Training outputs (checkpoints/logs) are stored under `outputs/` (configured via `--log_dir`).
+| Dataset | Method | Accuracy (%) | Forgetting (%) | Runtime (s) |
+| --- | --- | --- | --- | --- |
+| **Stream-51** | ER | 59.99 | 3.70 | 1883.75 |
+|  | **StreamFP** | **64.44** | **2.25** | 2049.52 |
+| **Clear10** | ER | 51.90 | 1.09 | 412.50 |
+|  | **StreamFP** | **54.94** | **0.82** | 448.80 |
 
-## Reproducibility
+*Detailed results can be found in the `results_log/` directory after training.*
 
-- Each trial sets seeds for `random`, `numpy`, and `torch` in `run.py`.
-- `torch.backends.cudnn.deterministic=True` is enabled.
-- Due to CUDA/cuDNN/driver differences, results may vary slightly; we recommend matching **mean ± confidence interval** across `--repeat` runs.
+## 📜 Citation
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Citation
-
-If you find this work useful, please cite the WWW paper:
+If you find this work useful for your research, please cite our WWW '26 paper :
 
 ```bibtex
-@inproceedings{streamfp_www,
-  title={StreamFP: Fingerprint-guided Data Selection for Efficient Stream},
-  author={TODO},
-  booktitle={Proceedings of the ACM Web Conference (WWW)},
-  year={TODO}
+@inproceedings{li2026streamfp,
+  title={StreamFP: Fingerprint-guided Data Selection for Efficient Stream Learning},
+  author={Li, Changwu and Shi, Tongjun and Zhang, Shuhao and Chen, Binbin and He, Bingsheng and Liao, Xiaofei and Jin, Hai},
+  booktitle={Proceedings of the ACM Web Conference 2026 (WWW '26)},
+  year={2026},
+  publisher={ACM},
+  address={Dubai, United Arab Emirates},
+  doi={10.1145/XXXXXXXXXXXX}
 }
+
 ```
 
-## Acknowledgments
+## 📝 License
 
-- PyTorch
-- Clear Benchmark / CORe50 / Stream-51 dataset authors
+This project is licensed under the MIT License - see the [LICENSE](https://www.google.com/search?q=LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+This research is supported by **Huazhong University of Science and Technology** and **Singapore University of Technology and Design**. We thank the authors of [Clear Benchmark](https://clear-benchmark.github.io/), [CORe50](https://vlomonaco.github.io/core50/), and [Stream-51](https://github.com/tyler-hayes/Stream-51) for their datasets.
+
+```
+
+```
