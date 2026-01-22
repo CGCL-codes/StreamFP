@@ -30,12 +30,12 @@ StreamFP achieves superior accuracy and efficiency compared to state-of-the-art 
 StreamFP consists of three key components driven by a shared set of learnable fingerprints [cite: 141-144]:
 
 <div align="center">
-  <img src="assets/framework.pdf" width="800px" alt="StreamFP Framework">
+  <img src="assets/framework.png" width="800px" alt="StreamFP Framework">
 </div>
 
-1. **Fingerprint-based Coreset Selection (FCS)**: Selects informative samples from incoming batches based on fingerprint similarity, prioritizing data that balances novelty and familiarity[cite: 246].
-2. **Fingerprint-based Buffer Update (FBU)**: Dynamically maintains the replay buffer by preserving representative historical samples and discarding redundant ones[cite: 276].
-3. **Fingerprint Attunement (FA)**: A lightweight plugin that uses pre-trained ViT attention to calibrate fingerprints online with negligible overhead[cite: 295].
+1. **Fingerprint-based Coreset Selection (FCS)**: Selects informative samples from incoming batches based on fingerprint similarity, prioritizing data that balances novelty and familiarity.
+2. **Fingerprint-based Buffer Update (FBU)**: Dynamically maintains the replay buffer by preserving representative historical samples and discarding redundant ones.
+3. **Fingerprint Attunement (FA)**: A lightweight plugin that uses pre-trained ViT attention to calibrate fingerprints online with negligible overhead.
 
 ## 🛠️ Installation
 
@@ -142,5 +142,3 @@ This project is licensed under the MIT License - see the [LICENSE](https://www.g
 This research is supported by **Huazhong University of Science and Technology** and **Singapore University of Technology and Design**. We thank the authors of [Clear Benchmark](https://clear-benchmark.github.io/), [CORe50](https://vlomonaco.github.io/core50/), and [Stream-51](https://github.com/tyler-hayes/Stream-51) for their datasets.
 
 ---
-
-I have removed all the abnormal characters as you requested. Let me know if you'd like any further adjustments!
