@@ -19,18 +19,18 @@ Here is the cleaned-up version of your markdown without the abnormal characters:
 
 Key challenges in Stream Learning (SL) addressed by StreamFP:
 
-1. **Data Redundancy**: Incoming streams often contain redundant data that wastes computation[cite: 58].
-2. **Catastrophic Forgetting**: Incremental updates can overwrite earlier knowledge[cite: 59].
-3. **Efficiency**: Traditional model-based selection is often too computationally expensive for real-time streams[cite: 96].
+1. **Data Redundancy**: Incoming streams often contain redundant data that wastes computation.
+2. **Catastrophic Forgetting**: Incremental updates can overwrite earlier knowledge.
+3. **Efficiency**: Traditional model-based selection is often too computationally expensive for real-time streams.
 
-StreamFP achieves superior accuracy and efficiency compared to state-of-the-art methods (e.g., Camel, ER, GradMatch) across varying data arrival rates[cite: 46].
+StreamFP achieves superior accuracy and efficiency compared to state-of-the-art methods (e.g., Camel, ER, GradMatch) across varying data arrival rates.
 
 ## 🚀 Methodology
 
 StreamFP consists of three key components driven by a shared set of learnable fingerprints [cite: 141-144]:
 
 <div align="center">
-  <img src="assets/framework.png" width="800px" alt="StreamFP Framework">
+  <img src="assets/framework.pdf" width="800px" alt="StreamFP Framework">
 </div>
 
 1. **Fingerprint-based Coreset Selection (FCS)**: Selects informative samples from incoming batches based on fingerprint similarity, prioritizing data that balances novelty and familiarity[cite: 246].
