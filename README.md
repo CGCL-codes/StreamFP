@@ -56,8 +56,23 @@ cd StreamFP
 conda env create -f environment.yml
 conda activate sl
 
-# (Optional) Install FastMoE if required by your specific config
-# https://github.com/laekov/fastmoe
+# (Optional) Install FastMoE (main path: build without NCCL)
+# NOTE: FastMoE builds a CUDA extension. If you see errors like "nccl.h: No such file or directory",
+# you can build without NCCL by setting USE_NCCL=0 (recommended unless you need NCCL-based distributed comm).
+conda install -y cmake ninja
+
+git clone --recursive https://github.com/laekov/fastmoe.git
+cd fastmoe
+
+# Option 1: disabling distributed features
+USE_NCCL=0 python setup.py install
+
+# Option 2: enabling distributed features
+python setup.py install
+
+# Quick check
+python -c "import fmoe, fmoe_cuda; print('FastMoE installed:', fmoe_cuda.__file__)"
+cd ..
 ```
 
 ## 📂 Datasets
