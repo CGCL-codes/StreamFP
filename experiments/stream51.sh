@@ -23,7 +23,7 @@ LIMITS="10"
 ATTUNE=1
 
 ###############################################################
-GPU=1
+GPU=0
 # process inputs
 mkdir -p $OUTDIR
 NAMES="streamprompt"

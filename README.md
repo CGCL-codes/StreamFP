@@ -91,11 +91,17 @@ sh core50.sh
 
 ### Basic Usage
 
-To run a standard experiment (e.g., on Clear10), use the scripts provided in `experiments/`:
+To run a standard experiment, use the scripts provided in `experiments/`:
 
 ```bash
 # Run Clear10 experiment
 sh experiments/clear10.sh
+
+# Run Clear100 experiment
+sh experiments/clear100.sh
+
+# Run Core50 experiment
+sh experiments/core50.sh
 
 # Run Stream-51 experiment
 sh experiments/stream51.sh
@@ -108,7 +114,9 @@ You can customize the training by modifying the arguments in `run.py`. Key argum
 * `--selection_method`: Strategy for coreset selection (e.g., `StreamFP`, `Camel`, `Random`).
 * `--update_method`: Strategy for buffer update (e.g., `StreamFP`, `ER`, `GSS`).
 * `--skip_batch`: Enable batch skipping for high-speed streams (default: `1`).
-* `--traintime_limit`: Simulate real-time constraints.
+  * `0`: no skipping (process every batch)
+  * `k > 0`: after processing one batch, skip the next `k` batches (reduces processing frequency)
+* `--traintime_limit`: Per-batch training time budget to simulate real-time constraints.
 
 Example command:
 
@@ -152,8 +160,5 @@ If you find this work useful for your research, please cite our WWW '26 paper:
 
 This project is licensed under the MIT License - see the [LICENSE](https://www.google.com/search?q=LICENSE) file for details.
 
-## 🙏 Acknowledgments
-
-This research is supported by **Huazhong University of Science and Technology** and **Singapore University of Technology and Design**. We thank the authors of [Clear Benchmark](https://clear-benchmark.github.io/), [CORe50](https://vlomonaco.github.io/core50/), and [Stream-51](https://github.com/tyler-hayes/Stream-51) for their datasets.
 
 ---
