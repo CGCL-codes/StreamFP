@@ -79,6 +79,8 @@ cd ..
 
 Create a `data/` directory in the project root.
 
+Download the datasets and extract them into the corresponding dataset folders under `data/`.
+
 * **Clear10 / Clear100**: Download from [Clear Benchmark](https://clear-benchmark.github.io/).
 * **Stream-51**: Download from [Stream-51 GitHub](https://github.com/tyler-hayes/Stream-51).
 * **CORe50**: Run the provided script to download and setup:
@@ -86,6 +88,8 @@ Create a `data/` directory in the project root.
 ```bash
 sh core50.sh
 ```
+
+
 
 ## ⚡ Quick Start
 
