@@ -156,7 +156,7 @@ If you find this work useful for your research, please cite our WWW '26 paper:
   year={2026},
   publisher={ACM},
   address={Dubai, United Arab Emirates},
-  doi={10.1145/XXXXXXXXXXXX}
+  doi={10.1145/3774904.3792584}
 }
 ```
 
